@@ -1,4 +1,4 @@
-import { navLinks, profile } from "../data/portfolio";
+import { navLinks, profile } from "../../features/portfolio";
 
 export default function Footer() {
   const year = new Date().getFullYear();

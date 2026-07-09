@@ -1,5 +1,5 @@
-import SpotlightCard from "../react-bits/SpotlightCard";
-import { aboutCards, profile } from "../data/portfolio";
+import { SpotlightCard } from "../react-bits";
+import { aboutCards, profile } from "../../features/portfolio";
 
 export default function About() {
   return (

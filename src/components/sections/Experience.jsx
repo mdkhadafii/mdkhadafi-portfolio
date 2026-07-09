@@ -1,4 +1,4 @@
-import { timeline } from "../data/portfolio";
+import { timeline } from "../../features/portfolio";
 
 function sortByStartYear(items) {
   return [...items].sort((first, second) => {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, Moon, Sun, X } from "lucide-react";
-import { navLinks, profile } from "../data/portfolio";
+import { navLinks, profile } from "../../features/portfolio";
 
 export default function Navbar({ theme, onToggleTheme }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,7 +42,13 @@ export default function Navbar({ theme, onToggleTheme }) {
   return (
     <header className={`navbar ${scrolled ? "navbar--scrolled" : ""}`}>
       <a href="#home" onClick={(event) => handleNav(event, "#home")} className="navbar__brand">
-        <span className="navbar__logo">{profile.shortName.charAt(0)}</span>
+        <span className="navbar__logo">
+          {profile.photo ? (
+            <img src={profile.photo} alt="" />
+          ) : (
+            profile.shortName.charAt(0)
+          )}
+        </span>
         <span>{profile.shortName}</span>
       </a>
 

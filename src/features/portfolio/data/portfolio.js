@@ -9,31 +9,28 @@ import {
   BriefcaseBusiness,
   UsersRound
 } from "lucide-react";
-import reactLogo from "../assets/tech/react.svg";
-import javascriptLogo from "../assets/tech/javascript.svg";
-import htmlLogo from "../assets/tech/html.svg";
-import cssLogo from "../assets/tech/css.svg";
-import tailwindLogo from "../assets/tech/tailwind.svg";
-import gsapLogo from "../assets/tech/gsap.svg";
-import nodeLogo from "../assets/tech/node.svg";
-import mysqlLogo from "../assets/tech/mysql.svg";
-import gitLogo from "../assets/tech/git.svg";
-import apiLogo from "../assets/tech/api.svg";
-// Masukkan foto kamu ke src/assets/profile/, lalu import di sini.
-// Contoh:
-// import profilePhoto from "../assets/profile/foto-saya.jpg";
+import reactLogo from "../../../assets/tech/react.svg";
+import javascriptLogo from "../../../assets/tech/javascript.svg";
+import htmlLogo from "../../../assets/tech/html.svg";
+import cssLogo from "../../../assets/tech/css.svg";
+import tailwindLogo from "../../../assets/tech/tailwind.svg";
+import gsapLogo from "../../../assets/tech/gsap.svg";
+import nodeLogo from "../../../assets/tech/node.svg";
+import mysqlLogo from "../../../assets/tech/mysql.svg";
+import gitLogo from "../../../assets/tech/git.svg";
+import apiLogo from "../../../assets/tech/api.svg";
+import profilePhoto from "../../../assets/profile/profile-photo.png";
 
 export const profile = {
   name: "Muhammad Dwi Khadafi",
   shortName: "Khadafi",
   role: "Front-End Developer & UI/UX Enthusiast",
-  headline: "Building clean, interactive, and memorable digital experiences.",
+  headline: "Merancang antarmuka web yang rapi, hidup, dan mudah digunakan.",
   description:
-    "Saya fokus membuat website modern yang responsif, rapi, mudah digunakan, dan punya detail interaksi visual yang halus. Saya tertarik pada React, UI/UX, animasi web, dan integrasi AI pada aplikasi web.",
+    "Saya membangun website modern dengan React, detail UI/UX yang konsisten, animasi halus, dan struktur front-end yang mudah dikembangkan.",
   location: "Indonesia",
   email: "mdkhadafii@gmail.com",
-  photo: "",
-  // Setelah import foto, ganti jadi: photo: profilePhoto,
+  photo: profilePhoto,
   socials: [
     {
       label: "GitHub",

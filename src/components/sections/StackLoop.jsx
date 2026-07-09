@@ -1,5 +1,5 @@
-import LogoLoop from "../react-bits/LogoLoop";
-import { techStack } from "../data/portfolio";
+import { LogoLoop } from "../react-bits";
+import { techStack } from "../../features/portfolio";
 
 export default function StackLoop() {
   return (

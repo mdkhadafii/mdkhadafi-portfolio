@@ -3,17 +3,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-import Preloader from "./components/Preloader";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import StackLoop from "./components/StackLoop";
-import About from "./components/About";
-import Skills from "./components/Skills";
-import Projects from "./components/Projects";
-import Experience from "./components/Experience";
-import Contact from "./components/Contact";
-import Footer from "./components/Footer";
-import BlobCursor from "./react-bits/BlobCursor";
+import { Preloader } from "./components/common";
+import { Footer, Navbar } from "./components/layout";
+import { About, Contact, Experience, Hero, Projects, Skills, StackLoop } from "./components/sections";
+import { BlobCursor } from "./components/react-bits";
 import { useSectionReveal } from "./hooks/useSectionReveal";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);

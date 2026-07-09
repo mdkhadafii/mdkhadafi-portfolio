@@ -2,8 +2,8 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import SpotlightCard from "../react-bits/SpotlightCard";
-import { skills } from "../data/portfolio";
+import { SpotlightCard } from "../react-bits";
+import { skills } from "../../features/portfolio";
 
 gsap.registerPlugin(ScrollTrigger);
 

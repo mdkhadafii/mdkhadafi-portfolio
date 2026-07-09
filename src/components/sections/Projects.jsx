@@ -1,7 +1,6 @@
 import { Code2, ExternalLink } from "lucide-react";
-import MagnetButton from "../react-bits/MagnetButton";
-import SpotlightCard from "../react-bits/SpotlightCard";
-import { projects } from "../data/portfolio";
+import { MagnetButton, SpotlightCard } from "../react-bits";
+import { projects } from "../../features/portfolio";
 
 export default function Projects() {
   return (

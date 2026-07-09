@@ -8,9 +8,15 @@ Website portfolio pribadi modern, interaktif, responsif, dan siap dikembangkan.
 - GSAP + @gsap/react
 - CSS modern
 - Komponen interaktif bergaya React Bits:
-  - `Aurora`
-  - `SpotlightCard`
+  - `BlobCursor`
+  - `LogoLoop`
   - `MagnetButton`
+  - `PixelBlast`
+  - `ProfileCard`
+  - `ProfileMotionCard`
+  - `SplitRevealText`
+  - `SpotlightCard`
+  - `TypingText`
 
 > Catatan: React Bits pada umumnya dipakai dengan cara copy-paste component atau install per component lewat shadcn/jsrepo. Di project ini, efek interaktif dibuat sebagai komponen lokal agar langsung bisa jalan setelah `npm install`.
 
@@ -34,42 +40,86 @@ npm run build
 npm run preview
 ```
 
+## Contact Form API
+
+Form contact memakai FormSubmit AJAX API dan default-nya mengirim ke email di:
+
+```bash
+src/features/portfolio/data/portfolio.js
+```
+
+Saat submit pertama, cek inbox email portfolio untuk aktivasi FormSubmit. Setelah aktif, pesan dari form akan langsung masuk ke email tersebut.
+
+Kalau ingin memakai endpoint FormSubmit token/invisible atau backend API sendiri, buat `.env.local`:
+
+```bash
+VITE_CONTACT_API_ENDPOINT=https://formsubmit.co/ajax/your-endpoint-token
+```
+
 ## Struktur Folder
 
 ```bash
 portfolio-react-gsap-reactbits/
-├── index.html
-├── package.json
-├── README.md
-└── src/
-    ├── App.jsx
-    ├── main.jsx
-    ├── styles.css
-    ├── components/
-    │   ├── About.jsx
-    │   ├── Contact.jsx
-    │   ├── Experience.jsx
-    │   ├── Footer.jsx
-    │   ├── Hero.jsx
-    │   ├── Navbar.jsx
-    │   ├── Projects.jsx
-    │   └── Skills.jsx
-    ├── data/
-    │   └── portfolio.js
-    ├── hooks/
-    │   └── useSectionReveal.js
-    └── react-bits/
-        ├── Aurora.jsx
-        ├── MagnetButton.jsx
-        └── SpotlightCard.jsx
+|-- index.html
+|-- package.json
+|-- README.md
+`-- src/
+    |-- App.jsx
+    |-- main.jsx
+    |-- styles.css
+    |-- assets/
+    |   |-- profile/
+    |   `-- tech/
+    |-- components/
+    |   |-- common/
+    |   |   |-- Preloader.jsx
+    |   |   `-- index.js
+    |   |-- layout/
+    |   |   |-- Footer.jsx
+    |   |   |-- Navbar.jsx
+    |   |   `-- index.js
+    |   |-- react-bits/
+    |   |   |-- BlobCursor.jsx
+    |   |   |-- LogoLoop.jsx
+    |   |   |-- MagnetButton.jsx
+    |   |   |-- PixelBlast.jsx
+    |   |   |-- ProfileCard.jsx
+    |   |   |-- SpotlightCard.jsx
+    |   |   `-- index.js
+    |   `-- sections/
+    |       |-- About.jsx
+    |       |-- Contact.jsx
+    |       |-- Experience.jsx
+    |       |-- Hero.jsx
+    |       |-- Projects.jsx
+    |       |-- Skills.jsx
+    |       |-- StackLoop.jsx
+    |       `-- index.js
+    |-- features/
+    |   `-- portfolio/
+    |       |-- data/
+    |       |   `-- portfolio.js
+    |       `-- index.js
+    `-- hooks/
+        `-- useSectionReveal.js
 ```
+
+## Panduan Maintenance
+
+- `components/layout`: komponen layout global seperti navbar dan footer.
+- `components/sections`: section utama halaman portfolio.
+- `components/common`: komponen umum yang tidak spesifik ke section.
+- `components/react-bits`: komponen efek/interaksi reusable.
+- `features/portfolio`: data dan logic khusus portfolio.
+- `assets/profile`: tempat menyimpan foto profil.
+- `assets/tech`: logo tech stack.
 
 ## Kustomisasi Cepat
 
 Edit data portfolio di:
 
 ```bash
-src/data/portfolio.js
+src/features/portfolio/data/portfolio.js
 ```
 
-Ganti nama, headline, daftar skill, project, experience, dan social media sesuai kebutuhan.
+Ganti nama, headline, daftar skill, project, experience, social media, dan foto profil sesuai kebutuhan.
