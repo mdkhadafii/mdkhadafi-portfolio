@@ -40,21 +40,11 @@ npm run build
 npm run preview
 ```
 
-## Contact Form API
+## Contact Form
 
-Form contact memakai FormSubmit AJAX API dan default-nya mengirim ke email di:
+Form contact memakai Netlify Forms. Submission bisa dilihat di dashboard Netlify pada menu Forms.
 
-```bash
-src/features/portfolio/data/portfolio.js
-```
-
-Saat submit pertama, cek inbox email portfolio untuk aktivasi FormSubmit. Setelah aktif, pesan dari form akan langsung masuk ke email tersebut.
-
-Kalau ingin memakai endpoint FormSubmit token/invisible atau backend API sendiri, buat `.env.local`:
-
-```bash
-VITE_CONTACT_API_ENDPOINT=https://formsubmit.co/ajax/your-endpoint-token
-```
+Kalau ingin pesan juga masuk ke inbox email, buka dashboard Netlify, pilih site ini, lalu aktifkan email notification untuk form `contact`.
 
 ## Struktur Folder
 

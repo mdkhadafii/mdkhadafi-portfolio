@@ -3,9 +3,10 @@ import { Send } from "lucide-react";
 import { MagnetButton, SpotlightCard } from "../react-bits";
 import { profile } from "../../features/portfolio";
 
+const netlifyFormName = "contact";
 const fallbackContactEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
 const fallbackContactFormEndpoint = `https://formsubmit.co/${profile.email}`;
-const contactEndpoint = import.meta.env.VITE_CONTACT_API_ENDPOINT?.trim() || "/.netlify/functions/contact";
+const contactEndpoint = "/";
 
 const isNetworkError = (error) =>
   error instanceof TypeError || /failed to fetch|network|load failed/i.test(error.message || "");
@@ -28,19 +29,22 @@ const createContactPayload = (formElement) => {
   };
 };
 
-const submitWithAjax = async (payload) => {
+const submitWithNetlifyForms = async (payload) => {
+  const encodedPayload = new URLSearchParams({
+    "form-name": netlifyFormName,
+    ...payload
+  }).toString();
+
   const response = await fetch(contactEndpoint, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
+      "Content-Type": "application/x-www-form-urlencoded"
     },
-    body: JSON.stringify(payload)
+    body: encodedPayload
   });
-  const result = await response.json().catch(() => ({}));
 
-  if (!response.ok || result.success === false) {
-    throw new Error(result.message || "Pesan belum bisa dikirim.");
+  if (!response.ok) {
+    throw new Error("Pesan belum bisa dikirim.");
   }
 };
 
@@ -134,49 +138,42 @@ export default function Contact() {
     });
 
     try {
-      await submitWithAjax(payload);
+      await submitWithNetlifyForms(payload);
       setSubmitState({
         status: "success",
         message: "Pesan terkirim. Saya akan membalas lewat email secepatnya."
       });
       formElement.reset();
     } catch (error) {
-      if (isNetworkError(error)) {
-        try {
-          await submitWithFormSubmitAjax(payload);
-          setSubmitState({
-            status: "success",
-            message: "Pesan terkirim. Saya akan membalas lewat email secepatnya."
-          });
-          formElement.reset();
-          return;
-        } catch {
-          // Try a normal form post below when browser fetch is blocked.
-        }
-
-        try {
-          await submitWithFormFallback(payload);
-          setSubmitState({
-            status: "success",
-            message: "Pesan terkirim. Saya akan membalas lewat email secepatnya."
-          });
-          formElement.reset();
-          return;
-        } catch (fallbackError) {
-          setSubmitState({
-            status: "error",
-            message: fallbackError.message
-          });
-          return;
-        }
+      try {
+        await submitWithFormSubmitAjax(payload);
+        setSubmitState({
+          status: "success",
+          message: "Pesan terkirim. Saya akan membalas lewat email secepatnya."
+        });
+        formElement.reset();
+        return;
+      } catch {
+        // Try a normal form post below when browser fetch is blocked or third-party AJAX fails.
       }
 
-      setSubmitState({
-        status: "error",
-        message:
-          error.message ||
-          "Pesan gagal dikirim. Coba lagi atau hubungi saya langsung melalui email."
-      });
+      try {
+        await submitWithFormFallback(payload);
+        setSubmitState({
+          status: "success",
+          message: "Pesan terkirim. Saya akan membalas lewat email secepatnya."
+        });
+        formElement.reset();
+        return;
+      } catch (fallbackError) {
+        setSubmitState({
+          status: "error",
+          message: isNetworkError(error)
+            ? fallbackError.message
+            : error.message || fallbackError.message
+        });
+        return;
+      }
     }
   };
 
@@ -216,10 +213,14 @@ export default function Contact() {
           <SpotlightCard className="contact__form-card" data-reveal>
             <form
               className="contact-form"
-              action={fallbackContactFormEndpoint}
+              name={netlifyFormName}
+              action="/"
               method="POST"
+              data-netlify="true"
+              data-netlify-honeypot="_honey"
               onSubmit={handleSubmit}
             >
+              <input type="hidden" name="form-name" value={netlifyFormName} />
               <input
                 className="contact-form__honeypot"
                 name="_honey"
