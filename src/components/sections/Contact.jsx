@@ -4,7 +4,93 @@ import { MagnetButton, SpotlightCard } from "../react-bits";
 import { profile } from "../../features/portfolio";
 
 const fallbackContactEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
+const fallbackContactFormEndpoint = `https://formsubmit.co/${profile.email}`;
 const contactEndpoint = import.meta.env.VITE_CONTACT_API_ENDPOINT?.trim() || fallbackContactEndpoint;
+
+const isNetworkError = (error) =>
+  error instanceof TypeError || /failed to fetch|network|load failed/i.test(error.message || "");
+
+const createContactPayload = (formElement) => {
+  const formData = new FormData(formElement);
+  const name = String(formData.get("name") || "").trim();
+  const email = String(formData.get("email") || "").trim();
+  const message = String(formData.get("message") || "").trim();
+
+  return {
+    name,
+    email,
+    message,
+    _subject: `Pesan portfolio baru dari ${name || profile.shortName}`,
+    _template: "table",
+    _captcha: "false",
+    _replyto: email,
+    source: window.location.href
+  };
+};
+
+const submitWithAjax = async (payload) => {
+  const response = await fetch(contactEndpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+  const result = await response.json().catch(() => ({}));
+
+  if (!response.ok || result.success === false) {
+    throw new Error(result.message || "Pesan belum bisa dikirim.");
+  }
+};
+
+const submitWithFormFallback = (payload) =>
+  new Promise((resolve, reject) => {
+    const iframeName = `contact-submit-${Date.now()}`;
+    const iframe = document.createElement("iframe");
+    const form = document.createElement("form");
+    let submitted = false;
+
+    const cleanup = () => {
+      window.setTimeout(() => {
+        iframe.remove();
+        form.remove();
+      }, 800);
+    };
+
+    const timeoutId = window.setTimeout(() => {
+      cleanup();
+      reject(new Error("Pesan gagal dikirim. Coba lagi atau hubungi saya langsung melalui email."));
+    }, 15000);
+
+    iframe.name = iframeName;
+    iframe.hidden = true;
+    iframe.title = "Contact form submit";
+    iframe.addEventListener("load", () => {
+      if (!submitted) return;
+
+      window.clearTimeout(timeoutId);
+      cleanup();
+      resolve();
+    });
+
+    form.action = fallbackContactFormEndpoint;
+    form.method = "POST";
+    form.target = iframeName;
+    form.style.display = "none";
+
+    Object.entries(payload).forEach(([name, value]) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = name;
+      input.value = value;
+      form.appendChild(input);
+    });
+
+    document.body.append(iframe, form);
+    submitted = true;
+    form.submit();
+  });
 
 export default function Contact() {
   const [submitState, setSubmitState] = useState({
@@ -19,17 +105,12 @@ export default function Contact() {
 
     const formElement = event.currentTarget;
     const formData = new FormData(formElement);
+    const payload = createContactPayload(formElement);
 
     if (formData.get("_honey")) {
       formElement.reset();
       return;
     }
-
-    formData.set("_subject", `Pesan portfolio baru dari ${profile.shortName}`);
-    formData.set("_template", "table");
-    formData.set("_captcha", "false");
-    formData.set("_replyto", formData.get("email"));
-    formData.set("source", window.location.href);
 
     setSubmitState({
       status: "loading",
@@ -37,25 +118,31 @@ export default function Contact() {
     });
 
     try {
-      const response = await fetch(contactEndpoint, {
-        method: "POST",
-        headers: {
-          Accept: "application/json"
-        },
-        body: formData
-      });
-      const result = await response.json().catch(() => ({}));
-
-      if (!response.ok || result.success === false) {
-        throw new Error(result.message || "Pesan belum bisa dikirim.");
-      }
-
+      await submitWithAjax(payload);
       setSubmitState({
         status: "success",
         message: "Pesan terkirim. Saya akan membalas lewat email secepatnya."
       });
       formElement.reset();
     } catch (error) {
+      if (isNetworkError(error)) {
+        try {
+          await submitWithFormFallback(payload);
+          setSubmitState({
+            status: "success",
+            message: "Pesan terkirim. Saya akan membalas lewat email secepatnya."
+          });
+          formElement.reset();
+          return;
+        } catch (fallbackError) {
+          setSubmitState({
+            status: "error",
+            message: fallbackError.message
+          });
+          return;
+        }
+      }
+
       setSubmitState({
         status: "error",
         message:
@@ -99,7 +186,12 @@ export default function Contact() {
           </div>
 
           <SpotlightCard className="contact__form-card" data-reveal>
-            <form className="contact-form" onSubmit={handleSubmit}>
+            <form
+              className="contact-form"
+              action={fallbackContactFormEndpoint}
+              method="POST"
+              onSubmit={handleSubmit}
+            >
               <input
                 className="contact-form__honeypot"
                 name="_honey"
@@ -108,6 +200,9 @@ export default function Contact() {
                 autoComplete="off"
                 aria-hidden="true"
               />
+              <input type="hidden" name="_subject" value={`Pesan portfolio baru dari ${profile.shortName}`} />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_captcha" value="false" />
 
               <label>
                 Nama
