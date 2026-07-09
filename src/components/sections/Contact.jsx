@@ -5,7 +5,7 @@ import { profile } from "../../features/portfolio";
 
 const fallbackContactEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
 const fallbackContactFormEndpoint = `https://formsubmit.co/${profile.email}`;
-const contactEndpoint = import.meta.env.VITE_CONTACT_API_ENDPOINT?.trim() || fallbackContactEndpoint;
+const contactEndpoint = import.meta.env.VITE_CONTACT_API_ENDPOINT?.trim() || "/.netlify/functions/contact";
 
 const isNetworkError = (error) =>
   error instanceof TypeError || /failed to fetch|network|load failed/i.test(error.message || "");
@@ -30,6 +30,22 @@ const createContactPayload = (formElement) => {
 
 const submitWithAjax = async (payload) => {
   const response = await fetch(contactEndpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+  const result = await response.json().catch(() => ({}));
+
+  if (!response.ok || result.success === false) {
+    throw new Error(result.message || "Pesan belum bisa dikirim.");
+  }
+};
+
+const submitWithFormSubmitAjax = async (payload) => {
+  const response = await fetch(fallbackContactEndpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -126,6 +142,18 @@ export default function Contact() {
       formElement.reset();
     } catch (error) {
       if (isNetworkError(error)) {
+        try {
+          await submitWithFormSubmitAjax(payload);
+          setSubmitState({
+            status: "success",
+            message: "Pesan terkirim. Saya akan membalas lewat email secepatnya."
+          });
+          formElement.reset();
+          return;
+        } catch {
+          // Try a normal form post below when browser fetch is blocked.
+        }
+
         try {
           await submitWithFormFallback(payload);
           setSubmitState({
