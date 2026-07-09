@@ -20,6 +20,10 @@ import mysqlLogo from "../../../assets/tech/mysql.svg";
 import gitLogo from "../../../assets/tech/git.svg";
 import apiLogo from "../../../assets/tech/api.svg";
 import profilePhoto from "../../../assets/profile/profile-photo.png";
+import ragChatbotImage from "../../../assets/projects/rag-chatbot-screenshot.png";
+import scorifyDashboardImage from "../../../assets/projects/scorify-dashboard-screenshot.png";
+import efootballLeagueImage from "../../../assets/projects/efootball-league-screenshot.png";
+import portfolioMotionImage from "../../../assets/projects/portfolio-motion-screenshot.png";
 
 export const profile = {
   name: "Muhammad Dwi Khadafi",
@@ -132,36 +136,36 @@ export const projects = [
     description:
       "Prototype chatbot AI untuk layanan instansi pemerintah dengan knowledge base dokumen dan tampilan admin.",
     imageLabel: "AI Chatbot",
+    image: ragChatbotImage,
     tech: ["React", "FastAPI", "Gemini", "ChromaDB"],
-    live: "#",
-    github: "#"
+    github: "https://github.com/mdkhadafii/chatbotai"
   },
   {
     title: "Scorify Lead Scoring",
     description:
       "Dashboard prediksi prioritas calon nasabah untuk membantu tim sales membaca peluang konversi.",
     imageLabel: "Dashboard",
+    image: scorifyDashboardImage,
     tech: ["Next.js", "React", "PostgreSQL", "Prisma"],
-    live: "#",
-    github: "#"
+    github: "https://github.com/Scorify-Scoring-Financially/Scorify"
   },
   {
     title: "eFootball League Table",
     description:
       "Website klasemen liga eFootball dengan data tim, ranking, statistik, dan UI kompetisi modern.",
     imageLabel: "League App",
+    image: efootballLeagueImage,
     tech: ["React", "Node.js", "MySQL"],
-    live: "#",
-    github: "#"
+    github: "https://github.com/mdkhadafii/Klasmengame"
   },
   {
     title: "Portfolio Motion UI",
     description:
       "Website portfolio modern dengan animasi scroll, hover spotlight, gradient visual, dan responsive layout.",
     imageLabel: "Portfolio",
+    image: portfolioMotionImage,
     tech: ["React", "GSAP", "CSS"],
-    live: "#",
-    github: "#"
+    github: "https://github.com/mdkhadafii/mdkhadafi-portfolio"
   }
 ];
 

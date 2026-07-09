@@ -1,4 +1,4 @@
-import { Code2, ExternalLink } from "lucide-react";
+import { Code2 } from "lucide-react";
 import { MagnetButton, SpotlightCard } from "../react-bits";
 import { projects } from "../../features/portfolio";
 
@@ -10,8 +10,8 @@ export default function Projects() {
           <span className="section-kicker">Projects</span>
           <h2>Beberapa project pilihan.</h2>
           <p>
-            Card project dibuat dengan hover spotlight, tilt movement, tech chips, dan tombol aksi
-            agar terlihat seperti portfolio developer profesional.
+            Card project dibuat dengan preview tampilan, hover spotlight, tech chips, dan tautan
+            GitHub untuk mengecek repository project.
           </p>
         </div>
 
@@ -19,7 +19,12 @@ export default function Projects() {
           {projects.map((project, index) => (
             <SpotlightCard className="project-card" key={project.title} data-stagger-item>
               <div className={`project-card__preview project-card__preview--${index + 1}`}>
-                <span>{project.imageLabel}</span>
+                <img
+                  src={project.image}
+                  alt={`Tampilan project ${project.title}`}
+                  className="project-card__image"
+                  loading="lazy"
+                />
                 <div className="project-card__window">
                   <i />
                   <i />
@@ -38,11 +43,12 @@ export default function Projects() {
                 </div>
 
                 <div className="project-card__actions">
-                  <MagnetButton href={project.live} className="button button--small button--primary">
-                    Live Demo <ExternalLink size={16} />
-                  </MagnetButton>
-
-                  <MagnetButton href={project.github} className="button button--small button--ghost">
+                  <MagnetButton
+                    href={project.github}
+                    className="button button--small button--primary"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     GitHub <Code2 size={16} />
                   </MagnetButton>
                 </div>

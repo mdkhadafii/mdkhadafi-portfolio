@@ -1,0 +1,62 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @media (prefers-reduced-motion: no-preference) {
+      #head {
+        animation: head-bob 2.8s ease-in-out infinite;
+        transform-origin: 32px 34px;
+      }
+
+      .eye {
+        animation: blink 3.2s ease-in-out infinite;
+        transform-origin: center;
+      }
+
+      #spark {
+        animation: spark-pulse 1.8s ease-in-out infinite;
+        transform-origin: 49px 17px;
+      }
+    }
+
+    @keyframes head-bob {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-2px) rotate(-2deg); }
+    }
+
+    @keyframes blink {
+      0%, 90%, 100% { transform: scaleY(1); }
+      94% { transform: scaleY(0.14); }
+    }
+
+    @keyframes spark-pulse {
+      0%, 100% { opacity: 0.72; transform: scale(0.92); }
+      50% { opacity: 1; transform: scale(1.08); }
+    }
+  </style>
+  <rect width="64" height="64" rx="18" fill="#0D1110"/>
+  <rect x="5" y="5" width="54" height="54" rx="16" fill="url(#paint0_linear)"/>
+  <g id="spark">
+    <path d="M49 10V24" stroke="#C9F27D" stroke-width="3" stroke-linecap="round"/>
+    <path d="M42 17H56" stroke="#C9F27D" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g id="head">
+    <path d="M17.5 27.5L20 13.5L30 22.5H34L44 13.5L46.5 27.5" fill="#FFB84D"/>
+    <path d="M17.5 27.5L20 13.5L30 22.5H34L44 13.5L46.5 27.5" stroke="#231B12" stroke-width="2" stroke-linejoin="round"/>
+    <ellipse cx="32" cy="35" rx="20" ry="18" fill="#FFB84D" stroke="#231B12" stroke-width="2"/>
+    <path d="M23 21L21.5 17L26 21.5" stroke="#C97812" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M41 21L42.5 17L38 21.5" stroke="#C97812" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse class="eye" cx="24.5" cy="34" rx="3.4" ry="4.2" fill="#0D1110"/>
+    <ellipse class="eye" cx="39.5" cy="34" rx="3.4" ry="4.2" fill="#0D1110"/>
+    <path d="M32 39L29.5 42H34.5L32 39Z" fill="#231B12"/>
+    <path d="M22 43C16.5 42.2 12.8 40.8 9.5 38.5" stroke="#FFF7E8" stroke-width="2" stroke-linecap="round"/>
+    <path d="M22 47C16.8 47.4 13 48.5 9.5 50.5" stroke="#FFF7E8" stroke-width="2" stroke-linecap="round"/>
+    <path d="M42 43C47.5 42.2 51.2 40.8 54.5 38.5" stroke="#FFF7E8" stroke-width="2" stroke-linecap="round"/>
+    <path d="M42 47C47.2 47.4 51 48.5 54.5 50.5" stroke="#FFF7E8" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <defs>
+    <linearGradient id="paint0_linear" x1="8" y1="8" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFB84D"/>
+      <stop offset="0.52" stop-color="#FF6B57"/>
+      <stop offset="1" stop-color="#28C497"/>
+    </linearGradient>
+  </defs>
+</svg>
